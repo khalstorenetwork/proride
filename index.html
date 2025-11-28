@@ -622,7 +622,7 @@ AXBSSP,AXIA/BEZZA,SPORT SPRING,1SET,4,390
         const DEV_API_URL = 'https://dev.toyyibpay.com/index.php/api/createBill';
         const DEV_PAYMENT_URL = 'https://dev.toyyibpay.com/'; 
         
-        // **✅ NEW CORRECTED URL**
+        // **CORRECTED URL**
         const RETURN_URL = 'https://khalstorenetwork.github.io/proride/'; 
 
         async function handlePayment() {
@@ -662,6 +662,10 @@ AXBSSP,AXIA/BEZZA,SPORT SPRING,1SET,4,390
             billData.append('billName', 'Proride App Order');
             billData.append('billDescription', `Order: ${cart.length} item(s). Shipping via ${courier.name}.`);
             billData.append('billAmount', amountInSen); // Amount in sen
+            
+            // ⭐⭐⭐ FIX: Adding the required billPriceSetting parameter ⭐⭐⭐
+            billData.append('billPriceSetting', '1'); 
+            
             // Redirect URLs will pass a 'status' parameter to your RETURN_URL
             billData.append('billReturnUrl', `${RETURN_URL}?status=success`); 
             billData.append('billUnpaidUrl', `${RETURN_URL}?status=unsuccessful`); 
