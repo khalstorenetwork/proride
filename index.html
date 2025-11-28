@@ -25,90 +25,95 @@
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col items-center p-4">
 
-    <!-- Main App Container -->
-    <div id="app-container" class="bg-white rounded-3xl shadow-xl w-full max-w-sm md:max-w-md lg:max-w-lg overflow-hidden flex flex-col h-full">
-        <!-- Header -->
-        <header class="p-6 pb-4 bg-white sticky top-0 z-10">
-            <h1 class="text-3xl font-extrabold text-gray-900">Proride</h1>
-            <p class="text-gray-500 text-sm mt-1">Find your perfect parts.</p>
-        </header>
-
-        <!-- Filters & Search -->
-        <div class="p-4 flex flex-col gap-4">
-            <label for="car-model" class="text-sm font-medium text-gray-700">Car Model</label>
-            <select id="car-model" class="flex-1 w-full pl-4 pr-10 py-3 text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
-                <!-- Options will be populated by JS -->
-            </select>
-            <label for="product-type" class="text-sm font-medium text-gray-700">Product Type</label>
-            <select id="product-type" class="flex-1 w-full pl-4 pr-10 py-3 text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
-                <!-- Options will be populated by JS -->
-            </select>
-        </div>
-        
-        <!-- Product Image Display -->
-        <div class="p-4 flex justify-center">
-            <img id="product-main-image" src="" alt="Selected Product Image" class="w-full object-contain rounded-xl shadow-md bg-gray-200" onerror="this.src='https://placehold.co/800x800/e5e7eb/6b7280?text=No+product+image+available'">
-        </div>
-
-        <!-- Product List -->
-        <main id="product-list" class="flex-grow overflow-y-auto px-4 pb-20 grid grid-cols-1 gap-4">
-            <!-- Product cards will be dynamically inserted here -->
-        </main>
-
-        <!-- Floating Cart Button -->
-        <div class="fixed bottom-0 left-0 right-0 p-4 flex justify-center z-20">
-            <button id="cart-button" class="relative bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-full shadow-lg transition-all duration-300 transform scale-100 active:scale-95">
-                <span id="cart-item-count" class="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-xs font-bold ring-2 ring-white text-white">0</span>
-                View Cart
+    <div id="app-container" class="bg-white rounded-3xl shadow-2xl p-6 max-w-lg w-full">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">Proride Parts</h1>
+            <button id="cart-button" class="relative bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition duration-300 active:scale-95">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l3 12h11l3-8H7" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21a1 1 0 100-2 1 1 0 000 2zm10 0a1 1 0 100-2 1 1 0 000 2z" />
+                </svg>
+                <span id="cart-item-count" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">0</span>
             </button>
         </div>
+
+        <div class="mb-6 rounded-xl overflow-hidden shadow-lg">
+            <img id="product-main-image" src="https://placehold.co/800x800/e5e7eb/6b7280?text=Select+Car+Model" alt="Main product image placeholder" class="w-full h-auto object-cover">
+        </div>
+
+        <div class="flex space-x-4 mb-6">
+            <div class="flex-1">
+                <label for="car-model" class="block text-sm font-medium text-gray-700 mb-1">Car Model</label>
+                <select id="car-model" class="w-full p-3 border border-gray-300 bg-white rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                    </select>
+            </div>
+            <div class="flex-1">
+                <label for="product-type" class="block text-sm font-medium text-gray-700 mb-1">Product Type</label>
+                <select id="product-type" class="w-full p-3 border border-gray-300 bg-white rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                    </select>
+            </div>
+        </div>
+
+        <div id="product-list">
+            </div>
     </div>
 
-    <!-- Modals -->
-
-    <!-- Cart Modal -->
     <div id="cart-modal" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-70 flex items-end hidden">
         <div class="relative bg-white w-full rounded-t-3xl shadow-2xl p-6 modal-content-enter">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-2xl font-bold text-gray-800">Your Cart</h3>
                 <button onclick="closeCartModal()" class="text-gray-400 hover:text-gray-600 text-2xl font-bold p-2 leading-none rounded-full transition-colors">&times;</button>
             </div>
-            <div id="cart-items" class="max-h-64 overflow-y-auto border-t border-b py-4">
-                <!-- Cart items will be displayed here -->
-            </div>
-            <div class="mt-6 flex flex-col gap-4">
-                <div class="flex justify-between items-center">
-                    <p class="text-lg font-semibold">Total:</p>
-                    <p id="cart-total" class="text-2xl font-bold text-blue-600">RM 0.00</p>
+            <div id="cart-items" class="max-h-64 overflow-y-auto mb-6 space-y-2">
                 </div>
-                <button id="checkout-button" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition duration-300 active:scale-98">Checkout</button>
+            <div class="flex justify-between items-center text-xl font-bold border-t pt-4">
+                <span>Total:</span>
+                <span id="cart-total">RM 0.00</span>
             </div>
+            <button id="checkout-button" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 mt-4 rounded-xl transition duration-300 active:scale-98 opacity-50 cursor-not-allowed" disabled>
+                Proceed to Checkout
+            </button>
         </div>
     </div>
 
-    <!-- Checkout Modal -->
     <div id="checkout-modal" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-70 flex items-end hidden">
         <div class="relative bg-white w-full rounded-t-3xl shadow-2xl p-6 modal-content-enter">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-2xl font-bold text-gray-800">Checkout</h3>
                 <button onclick="closeCheckoutModal()" class="text-gray-400 hover:text-gray-600 text-2xl font-bold p-2 leading-none rounded-full transition-colors">&times;</button>
             </div>
-            <div id="checkout-summary" class="max-h-64 overflow-y-auto mb-6">
-                <!-- Order summary and courier info will be displayed here -->
+            
+            <div class="mb-6 space-y-3">
+                <h4 class="text-lg font-bold text-gray-800 border-b pb-2">Customer Information</h4>
+                <div>
+                    <label for="name" class="text-sm font-medium text-gray-700 block mb-1">Full Name</label>
+                    <input type="text" id="name" placeholder="Your Name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="email" class="text-sm font-medium text-gray-700 block mb-1">Email</label>
+                    <input type="email" id="email" placeholder="you@example.com" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="phone" class="text-sm font-medium text-gray-700 block mb-1">Phone Number</label>
+                    <input type="tel" id="phone" placeholder="e.g., 60123456789" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                </div>
             </div>
+            <div id="checkout-summary" class="max-h-64 overflow-y-auto mb-6">
+                </div>
             <button id="pay-button" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition duration-300 active:scale-98">Proceed to Payment</button>
         </div>
     </div>
 
-    <!-- Confirmation Modal -->
     <div id="confirmation-modal" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-70 flex items-center justify-center hidden">
-        <div class="p-8 bg-white rounded-2xl shadow-2xl text-center w-11/12 max-w-sm transform scale-90 transition-transform duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-green-500 mx-auto mb-4" viewBox="0 0 20 20" fill="currentColor">
+        <div class="bg-white rounded-xl shadow-2xl p-8 max-w-sm w-full text-center transform scale-90 transition-transform duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-green-500 mx-auto mb-4" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
             <h3 class="text-2xl font-bold text-gray-800 mb-2">Payment Successful!</h3>
-            <p class="text-gray-600 mb-6">Thank you for your purchase. A summary has been emailed to you.</p>
-            <button onclick="closeConfirmationModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 active:scale-95">Done</button>
+            <p class="text-gray-600 mb-6">Thank you for your order. Your transaction has been completed successfully.</p>
+            <button onclick="closeConfirmationModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition duration-300 active:scale-95">
+                Continue Shopping
+            </button>
         </div>
     </div>
 
@@ -561,6 +566,12 @@ AXBSSP,AXIA/BEZZA,SPORT SPRING,1SET,4,390
             const courier = getCheapestCourier();
             const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
             const grandTotal = total + courier.price;
+            
+            // Set default values from a mock for testing purposes if fields are empty
+            document.getElementById('name').value = 'Test Customer';
+            document.getElementById('email').value = 'test@example.com';
+            document.getElementById('phone').value = '60123456789';
+
 
             checkoutSummaryEl.innerHTML = `
                 <div class="space-y-4">
@@ -601,14 +612,128 @@ AXBSSP,AXIA/BEZZA,SPORT SPRING,1SET,4,390
             }, 300);
         }
 
-        function showConfirmationModal() {
+        /**
+         * toyyibPay API Integration Logic
+         */
+        
+        // --- ToyyibPay Integration Constants (FOR DEV ONLY) ---
+        const DEV_SECRET_KEY = 'ctwirik8-7zs9-b32n-kpl5-gr86y2gs1vpq'; // YOUR TEST SECRET KEY
+        const DEV_CATEGORY_CODE = 'r6tmvjps'; // YOUR TEST CATEGORY CODE
+        const DEV_API_URL = 'https://dev.toyyibpay.com/index.php/api/createBill';
+        const DEV_PAYMENT_URL = 'https://dev.toyyibpay.com/'; 
+        
+        // **✅ NEW CORRECTED URL**
+        const RETURN_URL = 'https://khalstorenetwork.github.io/proride/'; 
+
+        async function handlePayment() {
+            const customerName = document.getElementById('name').value;
+            const customerEmail = document.getElementById('email').value;
+            const customerPhone = document.getElementById('phone').value;
+
+            // Basic validation for required fields
+            if (!customerName || !customerEmail || !customerPhone) {
+                alert('Please fill in your name, email, and phone number to proceed with payment.');
+                return;
+            }
+            
+            if (cart.length === 0) {
+                alert('Your cart is empty. Please add items before proceeding to payment.');
+                return;
+            }
+
+            const courier = getCheapestCourier();
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const grandTotal = subtotal + courier.price;
+            
+            // toyyibPay amount must be in CENTS/SEN (integer)
+            const amountInSen = Math.round(grandTotal * 100); 
+            const orderId = 'PR' + new Date().getTime(); // Unique external reference number
+            
+            // Safety check for amount
+            if (amountInSen <= 0) {
+                alert('Payment amount is zero or negative. Please check your cart.');
+                return;
+            }
+
+
+            const billData = new URLSearchParams();
+            billData.append('userSecretKey', DEV_SECRET_KEY);
+            billData.append('categoryCode', DEV_CATEGORY_CODE);
+            billData.append('billName', 'Proride App Order');
+            billData.append('billDescription', `Order: ${cart.length} item(s). Shipping via ${courier.name}.`);
+            billData.append('billAmount', amountInSen); // Amount in sen
+            // Redirect URLs will pass a 'status' parameter to your RETURN_URL
+            billData.append('billReturnUrl', `${RETURN_URL}?status=success`); 
+            billData.append('billUnpaidUrl', `${RETURN_URL}?status=unsuccessful`); 
+            billData.append('billTo', customerName);
+            billData.append('billEmail', customerEmail);
+            billData.append('billPhone', customerPhone);
+            billData.append('billPaymentChannel', '3'); // '3' is for All Channels (FPX and Card)
+            billData.append('billExternalReferenceNo', orderId);
+
+            document.getElementById('pay-button').textContent = 'Processing...';
+            document.getElementById('pay-button').disabled = true;
+
+            // --- DEBUGGING LOG ---
+            console.log('ToyyibPay Request Payload (URL-encoded):', billData.toString());
+            // ---------------------
+
+            try {
+                // 1. Call the toyyibPay API to generate the Bill Code
+                const response = await fetch(DEV_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: billData.toString()
+                });
+                
+                const responseData = await response.json();
+
+                // --- DEBUGGING LOG ---
+                console.log('ToyyibPay API Raw Response:', responseData);
+                // ---------------------
+
+                document.getElementById('pay-button').textContent = 'Proceed to Payment';
+                document.getElementById('pay-button').disabled = false;
+
+                if (responseData && responseData[0] && responseData[0].BillCode) {
+                    const billCode = responseData[0].BillCode;
+                    closeCheckoutModal(); // Close your local modal
+                    
+                    // 2. Redirect customer to the toyyibPay payment page
+                    window.location.href = `${DEV_PAYMENT_URL}${billCode}`; 
+                } else {
+                    // Error response from API (e.g., {"msg":"Invalid API Key/Secret Key"})
+                    console.error('ToyyibPay API Error (Response Data):', responseData);
+                    alert('Failed to generate payment link. Please check the console for details and ensure your Secret Key/Category Code are correct.');
+                }
+
+            } catch (error) {
+                document.getElementById('pay-button').textContent = 'Proceed to Payment';
+                document.getElementById('pay-button').disabled = false;
+                console.error('Network Error during ToyyibPay API call:', error);
+                alert('Could not connect to the payment gateway API. Check your network connection.');
+            }
+        }
+        
+        /**
+         * Modify showConfirmationModal to handle cart clearing on success
+         */
+        function showConfirmationModal(clearCart = false) {
             closeCheckoutModal();
             confirmationModal.classList.remove('hidden');
             setTimeout(() => {
                 confirmationModal.querySelector('div').classList.remove('scale-90');
             }, 10);
-            cart = [];
-            updateCartUI();
+            
+            // Only clear the cart if this function is called after a successful payment redirect
+            if (clearCart) {
+                cart = [];
+                updateCartUI();
+                // Clean the URL to prevent showing the modal again on refresh
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
         }
         
         function closeConfirmationModal() {
@@ -621,13 +746,27 @@ AXBSSP,AXIA/BEZZA,SPORT SPRING,1SET,4,390
         // Initial setup
         document.addEventListener('DOMContentLoaded', () => {
             populateDropdowns();
+
+            // Check for payment status in the URL after returning from toyyibPay
+            const urlParams = new URLSearchParams(window.location.search);
+            const status = urlParams.get('status');
+
+            if (status === 'success') {
+                // Show success modal and clear cart
+                showConfirmationModal(true); 
+            } else if (status === 'unsuccessful') {
+                alert('Payment was unsuccessful. You can try checking out again from your cart.');
+                // Clean the URL to prevent showing the alert again on refresh
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
         });
 
         carModelSelect.addEventListener('change', updateProductTypeDropdown);
         productTypeSelect.addEventListener('change', renderProducts);
         document.getElementById('cart-button').addEventListener('click', showCartModal);
         document.getElementById('checkout-button').addEventListener('click', showCheckoutModal);
-        document.getElementById('pay-button').addEventListener('click', showConfirmationModal);
+        // Update the listener to call the new handlePayment function
+        document.getElementById('pay-button').addEventListener('click', handlePayment);
     </script>
 </body>
 </html>
